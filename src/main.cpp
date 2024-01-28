@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
+#include "inc/lexer.h"
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
@@ -25,9 +26,12 @@ int main(int argc, char* argv[]) {
 
     std::reverse(lines.begin(), lines.end());
 
-    //TODO: Lexer
-
     for(const auto &reversedLine : lines) {
-        std::cout << reversedLine << std::endl;
+        Lexer lexer(reversedLine);
+        auto tokens = lexer.tokenize();
+        
+        for(const auto &token : tokens) {
+            std::cout << "Token: " << token.text << std::endl;
+        }
     }
 }

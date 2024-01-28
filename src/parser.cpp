@@ -62,3 +62,42 @@ std::unique_ptr<ASTNode> Parser::parseFactor() {
         throw std::runtime_error("Unexpected token: " + currentToken().text);
     }
 }
+
+std::unique_ptr<ASTNode> Parser::parseStatement() {
+    if(currentToken().type == TokenType::Const) {
+        return parseVariableDeclaration();
+    }
+
+    return nullptr;
+}
+
+std::unique_ptr<ASTNode> Parser::parseVariableDeclaration() {
+    advanceToken();
+    if(currentToken().type != TokenType::Identifier) {
+        throw std::runtime_error("Expected variable name");
+    }
+
+    std::string varName = currentToken().text;
+    advanceToken();
+
+    if(currentToken().type != TokenType::Equal) {
+        throw std::runtime_error("Expected '=' after variable name");
+    }
+    advanceToken();
+
+    auto expression = parseExpression();
+
+    if(currentToken().type != TokenType::Semicolon) {
+        throw std::runtime_error("Expected ';' after variable declaration");
+    }
+
+    advanceToken();
+
+    return std::make_unique<VariableDeclarationNode>(varName, std::move(expression));
+}
+
+std::unique_ptr<ASTNode> Parser::parseVariableUsage() {
+    std::string varName = currentToken().text;
+    advanceToken();
+    return std::make_unique<VariableUsageNode>(varName);
+}

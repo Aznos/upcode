@@ -4,6 +4,14 @@
 #include <string>
 #include <vector>
 
+enum class TokenType {
+    Number,
+    Operator,
+    OpenParen,
+    CloseParen,
+    EndOfLine
+};
+
 class Lexer {
     public:
         Lexer(const std::string &source);

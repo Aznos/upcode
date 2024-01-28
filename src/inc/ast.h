@@ -26,4 +26,20 @@ class BinaryOpNode : public ASTNode {
             : op(op), left(std::move(left)), right(std::move(right)) {}
 };
 
+class VariableDeclarationNode : public ASTNode {
+    public:
+        std::string name;
+        std::unique_ptr<ASTNode> expression;
+
+        VariableDeclarationNode(const std::string &name, std::unique_ptr<ASTNode> expression)
+            : name(name), expression(std::move(expression)) {}
+};
+
+class VariableUsageNode : public ASTNode {
+    public:
+        std::string name;
+
+        explicit VariableUsageNode(const std::string &name) : name(name) {}
+};
+
 #endif

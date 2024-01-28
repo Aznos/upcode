@@ -48,3 +48,17 @@ Token Lexer::getNextToken() {
             return {TokenType::EndOfLine, ""};
     }
 }
+
+bool Lexer::isDigit(char c) {
+    return c >= '0' && c <= '9';
+}
+
+Token Lexer::extractNumber() {
+    size_t start = currentPos;
+
+    while (currentPos < sourceCode.length() && isDigit(sourceCode[currentPos])) {
+        currentPos++;
+    }
+
+    return {TokenType::Number, sourceCode.substr(start, currentPos - start)};
+}

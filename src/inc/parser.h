@@ -8,12 +8,16 @@
 class Parser {
     public:
         explicit Parser(const std::vector<Token> &tokens);
+        double parseExpression();
     private:
         std::vector<Token> tokens;
         size_t currentTokenIndex;
 
         const Token &currentToken() const;
         void advanceToken();
+
+        double parseTerm();
+        double parseFactor();
 };
 
 #endif

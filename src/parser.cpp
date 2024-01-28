@@ -19,51 +19,45 @@ void Parser::advanceToken() {
     }
 }
 
-double Parser::parseExpression() {
-    double result = parseTerm();
+std::unique_ptr<ASTNode> Parser::parseExpression() {
+    auto node = parseTerm();
 
-    while(currentToken().type == TokenType::Operator &&
-        (currentToken().text == "+" || currentToken().text == "-"))
-        if(currentToken().text == "+") {
-            advanceToken();
-            result += parseTerm();
-        } else if(currentToken().text == "-") {
-            advanceToken();
-            result -= parseTerm();
-        }
+    while (currentToken().type == TokenType::Operator &&
+           (currentToken().text == "+" || currentToken().text == "-")) {
+        char op = currentToken().text[0];
+        advanceToken();
+        node = std::make_unique<BinaryOpNode>(op, std::move(node), parseTerm());
+    }
 
-    return result;
+    return node;
 }
 
-double Parser::parseTerm() {
-    double result = parseFactor();
+std::unique_ptr<ASTNode> Parser::parseTerm() {
+    auto node = parseFactor();
 
     while(currentToken().type == TokenType::Operator &&
         (currentToken().text == "*" || currentToken().text == "/"))
-        if(currentToken().text == "*") {
-            advanceToken();
-            result *= parseTerm();
-        } else if(currentToken().text == "/") {
-            advanceToken();
-            result /= parseTerm();
-        }
+    
+    char op = currentToken().text[0];
+    advanceToken();
+    node = std::make_unique<BinaryOpNode>(op, std::move(node), parseFactor());
 
-    return result;
+    return node;
 }
 
-double Parser::parseFactor() {
+std::unique_ptr<ASTNode> Parser::parseFactor() {
     if(currentToken().type == TokenType::Number) {
         double value = std::stod(currentToken().text);
         advanceToken();
-        return value;
+        return std::make_unique<NumberNode>(value);
     } else if(currentToken().text == "(") {
         advanceToken();
-        double value = parseExpression();
+        auto node = parseExpression();
         if(currentToken().text != ")") {
             throw std::runtime_error("Expected ')");
         }
         advanceToken();
-        return value;
+        return node;
     } else {
         throw std::runtime_error("Unexpected token: " + currentToken().text);
     }

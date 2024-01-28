@@ -2,13 +2,14 @@
 #define PARSER_H
 
 #include "lexer.h"
+#include "ast.h"
 #include <vector>
 #include <memory>
 
 class Parser {
     public:
         explicit Parser(const std::vector<Token> &tokens);
-        double parseExpression();
+        std::unique_ptr<ASTNode> parseExpression();
     private:
         std::vector<Token> tokens;
         size_t currentTokenIndex;
@@ -16,8 +17,8 @@ class Parser {
         const Token &currentToken() const;
         void advanceToken();
 
-        double parseTerm();
-        double parseFactor();
+        std::unique_ptr<ASTNode> parseTerm();
+        std::unique_ptr<ASTNode> parseFactor();
 };
 
 #endif

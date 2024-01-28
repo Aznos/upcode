@@ -43,9 +43,7 @@ Token Lexer::getNextToken() {
             currentPos++;
             return {TokenType::CloseParen, ")"};
         default:
-            //TODO: Error out
-            currentPos++;
-            return {TokenType::EndOfLine, ""};
+            throw std::runtime_error("Unexpected character: '" + std::string(1, currentChar) + "'");
     }
 }
 

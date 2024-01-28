@@ -27,13 +27,18 @@ int main(int argc, char* argv[]) {
     std::reverse(lines.begin(), lines.end());
 
     for(const auto &reversedLine : lines) {
-        Lexer lexer(reversedLine);
-        auto tokens = lexer.tokenize();
-        
-        for(const auto &token : tokens) {
-            if(token.type != TokenType::EndOfLine) {
-                std::cout << "Token: " << token.text << std::endl;
+        try {
+            Lexer lexer(reversedLine);
+            auto tokens = lexer.tokenize();
+            
+            for(const auto &token : tokens) {
+                if(token.type != TokenType::EndOfLine) {
+                    std::cout << "Token: " << token.text << std::endl;
+                }
             }
+        } catch(const std::runtime_error &e) {
+            std::cerr << "Error: " << e.what() << std::endl;
+            break;
         }
     }
 }

@@ -29,6 +29,20 @@ Token Lexer::getNextToken() {
         return extractNumber();
     }
 
+    if(isLetter(currentChar)) {
+        std::string text;
+        do {
+            text += currentChar;
+            currentPos++;
+        } while(isLetter(currentChar) || isDigit(currentChar));
+
+        if(text == "const") {
+            return {TokenType::Const, text};
+        }
+
+        return {TokenType::Identifier, text};
+    }
+
     switch(currentChar) {
         case '+':
         case '-':
@@ -42,6 +56,12 @@ Token Lexer::getNextToken() {
         case ')':
             currentPos++;
             return {TokenType::CloseParen, ")"};
+        case '=':
+            currentPos++;
+            return {TokenType::Equal, "="};
+        case ';':
+            currentPos++;
+            return {TokenType::Semicolon, ";"};
         default:
             throw std::runtime_error("Unexpected character: '" + std::string(1, currentChar) + "'");
     }

@@ -26,22 +26,33 @@ int main(int argc, char* argv[]) {
     }
     file.close();
 
-    // Removed the line reversal
     std::unordered_map<std::string, double> symbolTable;
 
-    for (const auto &line : lines) {  // Process each line in the order it appears
-        try {
-            Lexer lexer(line);
-            auto tokens = lexer.tokenize();
-            
-            Parser parser(tokens);
-            auto ast = parser.parseExpression();
+    for (const auto &line : lines) {
+        std::vector<Token> lineTokens;
+        Lexer lexer(line);
+        auto tokens = lexer.tokenize();
+        
+        for (const auto &token : tokens) {
+            if (token.type != TokenType::Semicolon) {
+                lineTokens.push_back(token);
+            } else {
+                if (!lineTokens.empty()) {
+                    Parser parser(lineTokens);
+                    auto ast = parser.parseStatement();
+                    double result = Eval::eval(ast.get(), symbolTable);
+                    std::cout << "Result: " << result << std::endl;
 
+                    lineTokens.clear();
+                }
+            }
+        }
+
+        if (!lineTokens.empty()) {
+            Parser parser(lineTokens);
+            auto ast = parser.parseStatement();
             double result = Eval::eval(ast.get(), symbolTable);
             std::cout << "Result: " << result << std::endl;
-        } catch (const std::runtime_error &e) {
-            std::cerr << "Error: " << e.what() << std::endl;
-            break;
         }
     }
 }

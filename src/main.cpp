@@ -30,6 +30,4 @@ int main(int argc, char* argv[]) {
     for(const auto &reversedLine : lines) {
         std::cout << reversedLine << std::endl;
     }
-
-    std::cout << "hello world!" << std::endl;
 }

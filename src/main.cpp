@@ -31,7 +31,9 @@ int main(int argc, char* argv[]) {
         auto tokens = lexer.tokenize();
         
         for(const auto &token : tokens) {
-            std::cout << "Token: " << token.text << std::endl;
+            if(token.type != TokenType::EndOfLine) {
+                std::cout << "Token: " << token.text << std::endl;
+            }
         }
     }
 }

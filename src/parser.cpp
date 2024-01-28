@@ -35,12 +35,12 @@ std::unique_ptr<ASTNode> Parser::parseExpression() {
 std::unique_ptr<ASTNode> Parser::parseTerm() {
     auto node = parseFactor();
 
-    while(currentToken().type == TokenType::Operator &&
-        (currentToken().text == "*" || currentToken().text == "/"))
-    
-    char op = currentToken().text[0];
-    advanceToken();
-    node = std::make_unique<BinaryOpNode>(op, std::move(node), parseFactor());
+    while (currentToken().type == TokenType::Operator &&
+           (currentToken().text == "*" || currentToken().text == "/")) {
+        char op = currentToken().text[0];
+        advanceToken();
+        node = std::make_unique<BinaryOpNode>(op, std::move(node), parseFactor());
+    }
 
     return node;
 }

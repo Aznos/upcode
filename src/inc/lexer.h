@@ -20,8 +20,14 @@ struct Token {
 class Lexer {
     public:
         Lexer(const std::string &source);
+        std::vector<Token> tokenize();
     private:
         std::string sourceCode;
+        size_t currentPos = 0;
+
+        Token getNexttoken();
+        bool isDigit(char c);
+        Token extractNumber();
 };
 
 #endif 

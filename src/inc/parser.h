@@ -13,7 +13,7 @@ class Parser {
         size_t currentTokenIndex;
 
         const Token &currentToken() const;
-        void advancetoken();
+        void advanceToken();
 };
 
 #endif

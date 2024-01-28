@@ -12,7 +12,7 @@ class Eval {
         static std::unordered_map<std::string, double> symbolTable;
         static double evalASTNode(const ASTNode* node);
         static double evalVariableDeclaration(const VariableDeclarationNode* node);
-        static double evalVariableUsae(const VariableUsageNode* node);
+        static double evalVariableUsage(const VariableUsageNode* node);
 };
 
 #endif

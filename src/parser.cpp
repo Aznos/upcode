@@ -78,7 +78,7 @@ std::unique_ptr<ASTNode> Parser::parseStatement() {
         return parseVariableDeclaration();
     }
 
-    return nullptr;
+    return parseStatement();
 }
 
 std::unique_ptr<ASTNode> Parser::parseVariableDeclaration() {

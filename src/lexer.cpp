@@ -51,6 +51,10 @@ bool Lexer::isDigit(char c) {
     return c >= '0' && c <= '9';
 }
 
+bool Lexer::isLetter(char c) {
+    return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
+}
+
 Token Lexer::extractNumber() {
     size_t start = currentPos;
 

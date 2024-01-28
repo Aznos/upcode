@@ -10,9 +10,9 @@ enum class TokenType {
     Operator,
     OpenParen,
     CloseParen,
-    Constant,
+    Const,
     Identifier,
-    Equals,
+    Equal,
     Semicolon,
     EndOfLine
 };
@@ -32,6 +32,7 @@ class Lexer {
 
         Token getNextToken();
         bool isDigit(char c);
+        bool isLetter(char c);
         Token extractNumber();
 };
 

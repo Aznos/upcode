@@ -3,7 +3,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>
-#include "inc/lexer.h"
+#include "inc/parser.h"
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
@@ -30,12 +30,10 @@ int main(int argc, char* argv[]) {
         try {
             Lexer lexer(reversedLine);
             auto tokens = lexer.tokenize();
-            
-            for(const auto &token : tokens) {
-                if(token.type != TokenType::EndOfLine) {
-                    std::cout << "Token: " << token.text << std::endl;
-                }
-            }
+
+            Parser parser(tokens);
+            double result = parser.parseExpression();
+            std::cout << "Result: " << result << std::endl;
         } catch(const std::runtime_error &e) {
             std::cerr << "Error: " << e.what() << std::endl;
             break;

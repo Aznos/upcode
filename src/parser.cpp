@@ -59,7 +59,7 @@ double Parser::parseFactor() {
     } else if(currentToken().text == "(") {
         advanceToken();
         double value = parseExpression();
-        if(currentToken().text !+ ")") {
+        if(currentToken().text != ")") {
             throw std::runtime_error("Expected ')");
         }
         advanceToken();

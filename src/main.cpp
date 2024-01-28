@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include "inc/parser.h"
+#include "inc/eval.h"
 
 int main(int argc, char* argv[]) {
     if(argc < 2) {
@@ -32,7 +33,9 @@ int main(int argc, char* argv[]) {
             auto tokens = lexer.tokenize();
 
             Parser parser(tokens);
-            double result = parser.parseExpression();
+            auto ast = parser.parseExpression();
+
+            double result = Eval::eval(ast.get());
             std::cout << "Result: " << result << std::endl;
         } catch(const std::runtime_error &e) {
             std::cerr << "Error: " << e.what() << std::endl;

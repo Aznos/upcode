@@ -12,6 +12,11 @@ enum class TokenType {
     EndOfLine
 };
 
+struct Token {
+    TokenType type;
+    std::string text;
+};
+
 class Lexer {
     public:
         Lexer(const std::string &source);

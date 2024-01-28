@@ -10,6 +10,7 @@ class Parser {
     public:
         explicit Parser(const std::vector<Token> &tokens);
         std::unique_ptr<ASTNode> parseExpression();
+        std::unique_ptr<ASTNode> parseStatement();
     private:
         std::vector<Token> tokens;
         size_t currentTokenIndex;
@@ -19,6 +20,8 @@ class Parser {
 
         std::unique_ptr<ASTNode> parseTerm();
         std::unique_ptr<ASTNode> parseFactor();
+        std::unique_ptr<ASTNode> parseVariableDeclaration();
+        std::unique_ptr<ASTNode> parseVariableUsage();
 };
 
 #endif

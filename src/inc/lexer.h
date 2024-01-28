@@ -10,6 +10,10 @@ enum class TokenType {
     Operator,
     OpenParen,
     CloseParen,
+    Constant,
+    Identifier,
+    Equals,
+    Semicolon,
     EndOfLine
 };
 

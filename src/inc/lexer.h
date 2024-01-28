@@ -25,7 +25,7 @@ class Lexer {
         std::string sourceCode;
         size_t currentPos = 0;
 
-        Token getNexttoken();
+        Token getNextToken();
         bool isDigit(char c);
         Token extractNumber();
 };

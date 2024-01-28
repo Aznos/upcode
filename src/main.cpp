@@ -25,5 +25,11 @@ int main(int argc, char* argv[]) {
 
     std::reverse(lines.begin(), lines.end());
 
+    //TODO: Lexer
+
+    for(const auto &reversedLine : lines) {
+        std::cout << reversedLine << std::endl;
+    }
+
     std::cout << "hello world!" << std::endl;
 }

@@ -31,6 +31,10 @@ int main(int argc, char* argv[]) {
         try {
             Lexer lexer(reversedLine);
             auto tokens = lexer.tokenize();
+            
+            for(const auto &token : tokens) {
+                std::cout << token.text << std::endl;
+            }
 
             Parser parser(tokens);
             auto ast = parser.parseExpression();

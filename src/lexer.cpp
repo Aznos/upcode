@@ -1,4 +1,5 @@
 #include "lexer.h"
+#include <iostream>
 
 Lexer::Lexer(const std::string &source) : sourceCode(source), currentPos(0) {}
 
@@ -25,6 +26,8 @@ Token Lexer::getNextToken() {
 
     char currentChar = sourceCode[currentPos];
 
+    std::cout << "Current Char: " << currentChar << std::endl;
+
     if(isDigit(currentChar)) {
         return extractNumber();
     }
@@ -34,11 +37,13 @@ Token Lexer::getNextToken() {
         do {
             text += currentChar;
             currentPos++;
-        } while(isLetter(currentChar) || isDigit(currentChar));
+        } while (currentPos < sourceCode.length() && (isLetter(sourceCode[currentPos]) || isDigit(sourceCode[currentPos])));
 
         if(text == "const") {
             return {TokenType::Const, text};
         }
+
+        std::cout << "Formed Token: " << text << std::endl; 
 
         return {TokenType::Identifier, text};
     }

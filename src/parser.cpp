@@ -46,22 +46,32 @@ std::unique_ptr<ASTNode> Parser::parseTerm() {
 }
 
 std::unique_ptr<ASTNode> Parser::parseFactor() {
-    if(currentToken().type == TokenType::Number) {
+    if (currentToken().type == TokenType::Number) {
         double value = std::stod(currentToken().text);
         advanceToken();
         return std::make_unique<NumberNode>(value);
-    } else if(currentToken().text == "(") {
+    } else if(currentToken().type == TokenType::Const) {
+        return parseVariableDeclaration();
+    }
+    else if (currentToken().type == TokenType::Identifier) {
+        std::string varName = currentToken().text;
+        advanceToken();
+        return std::make_unique<VariableUsageNode>(varName);
+    } else if (currentToken().text == "(") {
         advanceToken();
         auto node = parseExpression();
-        if(currentToken().text != ")") {
-            throw std::runtime_error("Expected ')");
+        if (currentToken().text != ")") {
+            throw std::runtime_error("Expected ')'");
         }
         advanceToken();
         return node;
     } else {
         throw std::runtime_error("Unexpected token: " + currentToken().text);
     }
+
+    return parseExpression();
 }
+
 
 std::unique_ptr<ASTNode> Parser::parseStatement() {
     if(currentToken().type == TokenType::Const) {
@@ -73,28 +83,28 @@ std::unique_ptr<ASTNode> Parser::parseStatement() {
 
 std::unique_ptr<ASTNode> Parser::parseVariableDeclaration() {
     advanceToken();
-    if(currentToken().type != TokenType::Identifier) {
-        throw std::runtime_error("Expected variable name");
-    }
 
+    if (currentToken().type != TokenType::Identifier) {
+        throw std::runtime_error("Expected variable name after 'const'");
+    }
     std::string varName = currentToken().text;
     advanceToken();
 
-    if(currentToken().type != TokenType::Equal) {
+    if (currentToken().type != TokenType::Equal) {
         throw std::runtime_error("Expected '=' after variable name");
     }
     advanceToken();
 
-    auto expression = parseExpression();
+    auto valueNode = parseExpression();
 
-    if(currentToken().type != TokenType::Semicolon) {
+    if (currentToken().type != TokenType::Semicolon) {
         throw std::runtime_error("Expected ';' after variable declaration");
     }
-
     advanceToken();
 
-    return std::make_unique<VariableDeclarationNode>(varName, std::move(expression));
+    return std::make_unique<VariableDeclarationNode>(varName, std::move(valueNode));
 }
+
 
 std::unique_ptr<ASTNode> Parser::parseVariableUsage() {
     std::string varName = currentToken().text;

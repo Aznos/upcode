@@ -6,13 +6,13 @@
 #include <string>
 
 class Eval {
-    public:
-        static double eval(const ASTNode* node);
-    private:
-        static std::unordered_map<std::string, double> symbolTable;
-        static double evalASTNode(const ASTNode* node);
-        static double evalVariableDeclaration(const VariableDeclarationNode* node);
-        static double evalVariableUsage(const VariableUsageNode* node);
+public:
+    static double eval(const ASTNode* node, std::unordered_map<std::string, double>& symbolTable);
+
+private:
+    static double evalASTNode(const ASTNode* node, std::unordered_map<std::string, double>& symbolTable);
+    static double evalVariableDeclaration(const VariableDeclarationNode* node, std::unordered_map<std::string, double>& symbolTable);
+    static double evalVariableUsage(const VariableUsageNode* node, std::unordered_map<std::string, double>& symbolTable);
 };
 
 #endif

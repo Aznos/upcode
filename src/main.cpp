@@ -23,5 +23,7 @@ int main(int argc, char* argv[]) {
     }
     file.close();
 
+    std::reverse(lines.begin(), lines.end());
+
     std::cout << "hello world!" << std::endl;
 }

@@ -26,8 +26,6 @@ Token Lexer::getNextToken() {
 
     char currentChar = sourceCode[currentPos];
 
-    std::cout << "Current Char: " << currentChar << std::endl;
-
     if(isDigit(currentChar)) {
         return extractNumber();
     }
@@ -37,7 +35,10 @@ Token Lexer::getNextToken() {
         do {
             text += currentChar;
             currentPos++;
-        } while (currentPos < sourceCode.length() && (isLetter(sourceCode[currentPos]) || isDigit(sourceCode[currentPos])));
+            if (currentPos < sourceCode.length()) {
+                currentChar = sourceCode[currentPos];
+            }
+        } while (currentPos < sourceCode.length() && (isLetter(currentChar) || isDigit(currentChar)));
 
         if(text == "const") {
             return {TokenType::Const, text};

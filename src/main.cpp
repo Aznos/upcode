@@ -16,5 +16,12 @@ int main(int argc, char* argv[]) {
         return 1;
     }
 
+    std::vector<std::string> lines;
+    std::string line;
+    while(getline(file, line)) {
+        lines.push_back(line);
+    }
+    file.close();
+
     std::cout << "hello world!" << std::endl;
 }
